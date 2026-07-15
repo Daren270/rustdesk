@@ -996,6 +996,20 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Patch custom config (pomoc)
+        run: |
+          set -e
+          f=libs/hbb_common/src/config.rs
+          g=flutter/lib/mobile/pages/server_page.dart
+          sed -i 's#rs-ny\.rustdesk\.com#daren270.asuscomm.com#g' "$f"
+          sed -i 's#OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=#eXETAvdLqXJ44tbMOIKE+oppF2Qh3qhyqxs19wXGlcY=#g' "$f"
+          sed -i 's#gFFI\.userModel\.userName\.value\.isEmpty &&#false \&\&#g' "$g"
+          echo "=== config.rs ==="; grep -nE 'RENDEZVOUS_SERVERS|RS_PUB_KEY' "$f"
+          if ! grep -q 'daren270.asuscomm.com' "$f"; then echo "PATCH FAILED: rendezvous server not applied"; exit 1; fi
+          if ! grep -q 'eXETAvdLqXJ44tbMOIKE' "$f"; then echo "PATCH FAILED: public key not applied"; exit 1; fi
+          if grep -q 'gFFI.userModel.userName.value.isEmpty &&' "$g"; then echo "PATCH FAILED: scam-warning gate still present"; exit 1; fi
+          echo "Custom config patch OK"
+
       - name: Install flutter
         uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
@@ -1267,6 +1281,20 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           submodules: recursive
+
+      - name: Patch custom config (pomoc)
+        run: |
+          set -e
+          f=libs/hbb_common/src/config.rs
+          g=flutter/lib/mobile/pages/server_page.dart
+          sed -i 's#rs-ny\.rustdesk\.com#daren270.asuscomm.com#g' "$f"
+          sed -i 's#OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=#eXETAvdLqXJ44tbMOIKE+oppF2Qh3qhyqxs19wXGlcY=#g' "$f"
+          sed -i 's#gFFI\.userModel\.userName\.value\.isEmpty &&#false \&\&#g' "$g"
+          echo "=== config.rs ==="; grep -nE 'RENDEZVOUS_SERVERS|RS_PUB_KEY' "$f"
+          if ! grep -q 'daren270.asuscomm.com' "$f"; then echo "PATCH FAILED: rendezvous server not applied"; exit 1; fi
+          if ! grep -q 'eXETAvdLqXJ44tbMOIKE' "$f"; then echo "PATCH FAILED: public key not applied"; exit 1; fi
+          if grep -q 'gFFI.userModel.userName.value.isEmpty &&' "$g"; then echo "PATCH FAILED: scam-warning gate still present"; exit 1; fi
+          echo "Custom config patch OK"
 
       - name: Install flutter
         uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
