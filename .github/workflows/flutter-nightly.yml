@@ -1,9 +1,9 @@
 name: Flutter Nightly Build
 
 on:
-  schedule:
-    # schedule build every night
-    - cron: "0 0 * * *"
+  # Harmonogram nocny WYŁĄCZONY celowo (pomoc): build tylko na żądanie,
+  # żeby nie wypychać codziennie nieprzetestowanych buildów do rodziny.
+  # Rebuild: Actions -> Flutter Nightly Build -> Run workflow (albo gh workflow run).
   workflow_dispatch:
 
 jobs:
